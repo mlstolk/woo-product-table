@@ -100,11 +100,11 @@ $column_array = array(
     'quick'         => __( 'Quick View', 'wpt_pro' ),
     'date'          =>  __( 'Date', 'wpt_pro' ),
     'modified_date' =>  __( 'Modified Date', 'wpt_pro' ),
-    'attribute' =>  __( 'Attributes', 'wpt_pro' ),
-    'variations' =>  __( 'Variations', 'wpt_pro' ),
+    'attribute'     =>  __( 'Attributes', 'wpt_pro' ),
+    'variations'    =>  __( 'Variations', 'wpt_pro' ),
     'quoterequest'  => __( 'Quote Request', 'wpt_pro' ),
     'description'   =>  __( 'Description', 'wpt_pro' ), //has been removed at V5.2 //Again start at 6.0.25
-    'blank'  => __( 'Blank', 'wpt_pro' ),
+    'blank'         => __( 'Blank', 'wpt_pro' ),
     'product_id'    => __( 'ID', 'wpt_pro' ),
     'serial_number' => __( 'SL', 'wpt_pro' ),
 );
@@ -225,9 +225,12 @@ $default = array(
     'search_box_orderby'    => __( 'Order By', 'wpt_pro' ),
     'search_box_order'      => __( 'Order', 'wpt_pro' ),
     //For Default Table's Content
+    /**
     'table_in_stock'        =>  __( 'In Stock', 'wpt_pro' ),//'In Stock',
     'table_out_of_stock'    =>  __( 'Out of Stock', 'wpt_pro' ),//'Out of Stock',
     'table_on_back_order'   =>  __( 'On Back Order', 'wpt_pro' ),//'On Back Order',
+    
+     */
 );
 $default = apply_filters( 'wpto_default_configure', $default );
 WPT_Product_Table::$default = $default;
@@ -257,14 +260,6 @@ class WPT_Product_Table{
         'perpose' => 'install', //install,upgrade,activation
     );
 
-    /**
-     * It's need for Varification purchase code of CodeCanyon
-     *
-     * @var type int
-     */
-    public static $item_id = 20676867;
-    
-    public static $options_name = 'wpt_codecanyon_purchase_code';
 
     /**
      * To set Default Value for Woo Product Table, So that, we can set Default Value in Plugin Start and 

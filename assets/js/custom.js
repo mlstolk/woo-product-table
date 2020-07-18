@@ -392,7 +392,7 @@
         /**
          * Click Action/Event on No ajax product in Add to cart button
          * No Ajax Add to cart product button Action
-         */
+         *
         $('body').on('click','a.no_ajax_action.wpt_woo_add_cart_button',function(e){
             e.preventDefault();
             var quantity = $(this).attr('data-quantity');
@@ -403,16 +403,15 @@
         /**
          * Click Action/Event on No ajax product in Add to cart button
          * for Grouped and External Product
-         */
-        $('body').on('click','tr.product_type_grouped.grouped a.no_ajax_action.wpt_woo_add_cart_button,\n\
-                        tr.product_type_external.external a.no_ajax_action.wpt_woo_add_cart_button',function(e){
+         *
+        $('body').on('click','tr.product_type_grouped.grouped a.no_ajax_action.wpt_woo_add_cart_button,tr.product_type_external.external a.no_ajax_action.wpt_woo_add_cart_button',function(e){
             e.preventDefault();
             //var quantity = $(this).attr('data-quantity');
             var uri = $(this).attr('href');
             uri = encodeURI(uri);
             window.location = uri;
         });
-        
+        //***********************************/
         
         /**
          * Add to cart button Action 
@@ -700,12 +699,15 @@
                 addToQuoteSelector.attr('data-variation_id', targetAttributeObject.variation_id);
                 addToQuoteSelector.attr('data-quote_data', quote_data);
                 
+                /*
                 //Set stock Message
                 if (targetAttributeObject.availability_html === "") {
                     wptMessageText = '<p class="stock in-stock">' + config_json.table_in_stock + '</p>';
                 } else {
                     wptMessageText = targetAttributeObject.availability_html;
                 }
+                */
+                wptMessageText = targetAttributeObject.availability_html;
                 //Setup Price Live
                 setValueToTargetTD_IfAvailable('price', targetAttributeObject.price_html);
 
