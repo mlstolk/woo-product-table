@@ -725,3 +725,15 @@ if( !function_exists( 'wpt_adding_body_class' ) ){
 }
 add_filter( 'body_class', 'wpt_adding_body_class' );
 
+if( !function_exists( 'blank_category_id_return' ) ){
+    function blank_category_id_return($args){
+        $args['tax_query'] = array(
+            'university_IN' => array(
+                'taxonomy' => 'university',
+                'terms' => 0
+            ),
+        );
+        return $args;
+    }
+}
+add_filter( 'wpto_table_query_args', 'blank_category_id_return' );

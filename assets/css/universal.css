@@ -506,12 +506,10 @@ h3.search_box_label {
     display: block;
     width: 100%;
 }
-button.button.wpt_search_button {
-    visibility: hidden;
+/*button.button.wpt_search_button {
     padding: 0;
     margin: 0;
-    display: none;
-}
+}*/
 .wpt_load_more_wrapper {
     text-align: center;
     display: block;
@@ -1518,4 +1516,9 @@ div.wpt_product_table_wrapper table.wpt_product_table th.wpt_action {
 .wpt_device_mobile .all_check_header_footer.all_check_header>span {
     margin-bottom: 10px;
     padding-bottom: 8px;
+}
+.search_single.search_single_direct,
+.wpt_table_tag_wrapper.empty_table_wrapper .wpt_loader_text.wpt_product_not_found,
+.wpt_table_tag_wrapper.empty_table_wrapper #wpt_table{
+    display: none;
 }

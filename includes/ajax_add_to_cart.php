@@ -122,6 +122,32 @@ if( !function_exists( 'wpt_ajax_paginate_links_load' ) ){
 add_action( 'wp_ajax_wpt_ajax_paginate_links_load', 'wpt_ajax_paginate_links_load' );
 add_action( 'wp_ajax_nopriv_wpt_ajax_paginate_links_load', 'wpt_ajax_paginate_links_load' );
 
+if( !function_exists( 'load_terms_by_ajax' ) ) {
+    function load_terms_by_ajax(){
+        $ky = isset( $_GET['q'] ) && !empty( $_GET['q'] ) ? $_GET['q'] : '';
+        $term_name =  isset( $_GET['key'] ) && !empty( $_GET['key'] ) ? $_GET['key'] : '';
+        $texonomy_sarch_args = array('hide_empty' => true,'orderby' => 'name','order' => 'ASC', 'name__like' => $ky, );
+        $tax_obj = get_terms( $term_name, $texonomy_sarch_args );
+        if( count( $tax_obj ) > 0 ){
+            $arr = array('results' => array());
+
+            foreach( $tax_obj as $item ){
+                $dd = array(
+                    'id' => $item->term_id,
+                    'text' => $item->name,
+                );
+                array_push($arr['results'], $dd);
+
+            }
+        }
+        echo json_encode($arr);
+
+        die();
+    }
+}
+add_action( 'wp_ajax_load_terms_by_ajax', 'load_terms_by_ajax' );
+add_action( 'wp_ajax_nopriv_load_terms_by_ajax', 'load_terms_by_ajax' );
+
 if( !function_exists( 'wpt_ajax_table_row_load' ) ){
     /**
      * Table Load by ajax Query before on Tables Top
