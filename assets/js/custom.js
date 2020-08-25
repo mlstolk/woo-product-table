@@ -12,25 +12,40 @@
         var site_url = $('div.wpt_product_table_wrapper').data('site_url');
             ajax_url = site_url + ajax_url_additional;
             
+        function matchCustom(params, data) {
+            // If there are no search terms, return all of the data
+            //    console.log(params);
+            if ($.trim(params.term) === '') {
+              return data;
+            }
+
+            // Do not display the item if there is no 'text' property
+            if (typeof data.text === 'undefined') {
+              return null;
+            }
+            //console.log(data,params);
+            // `params.term` should be the term that is used for searching
+            // `data.text` is the text that is displayed for the data object
+            if (data.text && params.term) {
+            //      var modifiedData = $.extend({}, data, true);
+            //      modifiedData.text += ' (matched)';
+            var matchedData = data.text.toLowerCase().startsWith(params.term.toLowerCase());
+            //console.log(matchedData, data.text.toLowerCase(), params.term.toLowerCase());
+
+              // You can return modified objects from here
+              // This includes matching the `children` how you want in nested data sets
+              // console.log(modifiedData);
+              if(matchedData) return data;
+//              return data;
+            }
+
+            // Return `null` if the term should not be displayed
+            return null;
+        }
         //Select2
         if(typeof $('.wpt_product_table_wrapper .search_select').select2 === 'function' && $('.wpt_product_table_wrapper .search_select').length > 0){
             $('.wpt_product_table_wrapper .search_select,select.filter_select').select2({
-                ajax: {
-                    url: ajax_url,
-                    dataType: 'json',
-					delay: 500,
-                    data: function (params) {
-                        console.log($(this));
-                        var term_name = $(this).data('key');
-                        return {
-                            q: params.term, // search query
-                            key: term_name,
-                            action: 'load_terms_by_ajax' // AJAX action for admin-ajax.php
-                        };
-                    },
-                    
-//                    cache: true,
-                },
+                matcher: matchCustom,
                 minimumInputLength: 1,
             });//, .wpt_varition_section select
         }
@@ -1290,12 +1305,14 @@
                     arrangingTDContentForMobile(); //@Since 5.2
                     loadMiniFilter(); //@Since 4.8
                     fixAfterAjaxLoad();
-                    $('div.wpt_loader_text').remove();
+//                    $('div.wpt_loader_text').remove();
                     var empty_table = $("#wpt_table tbody");
                     if(empty_table.children().length > 0 ){
                         $(".wpt_table_tag_wrapper").removeClass("empty_table_wrapper");
+                        $(".wpt_loader_text.wpt_product_not_found").removeClass("show_message");
                     }else if(empty_table.children().length == 0){
                         $(".wpt_table_tag_wrapper").addClass("empty_table_wrapper");
+                        $(".wpt_loader_text.wpt_product_not_found").addClass("show_message");
                     }
                 },
                 success: function(data) {

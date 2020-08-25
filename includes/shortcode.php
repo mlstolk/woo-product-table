@@ -561,7 +561,7 @@ function wpt_shortcode_generator( $atts = false ) {
     );
     
     $html .= '<div class="wpt_table_tag_wrapper">'; //Table tag wrapper start
-    
+    $html .= "<div class='wpt_loader_text wpt_product_not_found'>" . $config_value['product_not_founded'] . "</div>";
     $page_number_1plugs = $args['paged'] + 1;
     
     $table_class_arr = array(
@@ -1074,9 +1074,9 @@ function wpt_table_row_generator( $table_row_generator_array ){
         endwhile;
         //Moved reset query from here to end of table at version 4.3
     else:
-        //$html .= "<div class='wpt_loader_text wpt_product_not_found'>" . $config_value['product_not_founded'] . "</div>";
+//        $html .= "<div class='wpt_loader_text wpt_product_not_found'>" . $config_value['product_not_founded'] . "</div>";
         ?>
-                    <div class='wpt_loader_text wpt_product_not_found'><?php echo $config_value['product_not_founded']; ?></div>
+                    
         <?php
     endif;
     
