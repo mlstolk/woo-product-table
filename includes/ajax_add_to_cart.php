@@ -122,6 +122,47 @@ if( !function_exists( 'wpt_ajax_paginate_links_load' ) ){
 add_action( 'wp_ajax_wpt_ajax_paginate_links_load', 'wpt_ajax_paginate_links_load' );
 add_action( 'wp_ajax_nopriv_wpt_ajax_paginate_links_load', 'wpt_ajax_paginate_links_load' );
 
+if( !function_exists( 'wpt_load_terms_by_selecting_another' ) ) {
+    function wpt_load_terms_by_selecting_another() {
+
+        $id = isset( $_POST['q'] ) ? $_POST['q'] : '';
+        $key = isset( $_POST['key'] ) ? $_POST['key'] : '';
+
+        $products = get_posts(array(
+            'post_type' => 'product',
+            'numberposts' => -1,
+            'tax_query' => array(
+              array(
+                'taxonomy' => $key,
+                'field' => 'id', 
+                'terms' => $id, /// Where term_id of Term 1 is "1".
+                'include_children' => false
+              )
+            )
+          ));
+        $term_list = array('results' => array());
+          foreach($products as $key => $product){
+              $terms = get_the_terms($product->ID, 'course_code');
+              foreach($terms as $term){
+                $dd = array(
+                    'id' => $term->term_id,
+                    'text' => $term->name,
+                );
+                array_push($term_list['results'], $dd);
+              }
+          }
+//        wp_get_post_terms();
+//        print_r(get_the_terms($products[1]->ID, 'course_code'));
+//        print_r($term_list);
+        echo json_encode($term_list);
+//        print_r($products[1]->ID);
+//        echo $products;
+        die();
+    }
+}
+add_action('wp_ajax_wpt_load_terms_by_selecting_another', 'wpt_load_terms_by_selecting_another');
+add_action('wp_ajax_nopriv_wpt_load_terms_by_selecting_another', 'wpt_load_terms_by_selecting_another');
+
 if( !function_exists( 'load_terms_by_ajax' ) ) {
     function load_terms_by_ajax(){
         $ky = isset( $_GET['q'] ) && !empty( $_GET['q'] ) ? $_GET['q'] : '';

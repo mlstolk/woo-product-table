@@ -1121,8 +1121,8 @@ function wpt_texonomy_search_generator( $texonomy_keyword, $temp_number , $searc
     $html .= "<label class='search_keyword_label {$texonomy_keyword}' for='{$texonomy_keyword}_{$temp_number}'>{$label}</label>";
     
 
-    $html .= "<select data-key='{$texonomy_keyword}' class='search_select query search_select_{$texonomy_keyword}' id='{$texonomy_keyword}_{$temp_number}' multiple>";
-    //$html .= "<option value=''>{$label_all_items}</option>";
+    $html .= "<select data-key='{$texonomy_keyword}' class='search_select query search_select_{$texonomy_keyword}' id='{$texonomy_keyword}_{$temp_number}'>";
+    $html .= "<option value=''></option>";
     $texonomy_boj = get_terms( $texonomy_keyword, $texonomy_sarch_args );
     if( count( $texonomy_boj ) > 0 ){
         //Search box's Filter Sorting Added at Version 3.1

@@ -44,10 +44,36 @@
         }
         //Select2
         if(typeof $('.wpt_product_table_wrapper .search_select').select2 === 'function' && $('.wpt_product_table_wrapper .search_select').length > 0){
+            var ajax_url,ajax_url_additional = '/wp-admin/admin-ajax.php';
+            var site_url = $('div.wpt_product_table_wrapper').data('site_url');
+                ajax_url = site_url + ajax_url_additional;
             $('.wpt_product_table_wrapper .search_select,select.filter_select').select2({
                 matcher: matchCustom,
                 minimumInputLength: 1,
             });//, .wpt_varition_section select
+            $('.wpt_product_table_wrapper .search_select.search_select_university').on('select2:select', function (e) {
+                var data = e.params.data;
+                var term_name = $(this).data('key');
+                console.log(term_name);
+                $.ajax({
+                    type: 'post',
+                    url: ajax_url,
+                    dataType: 'json',
+                    data: {
+                            q: data.id, // search query
+                            key: term_name,
+                            action: 'wpt_load_terms_by_selecting_another' // AJAX action for admin-ajax.php
+                    
+                    },
+                    success: function(response) {
+                        console.log(JSON.stringify(response));
+                        $('.wpt_product_table_wrapper .search_select.search_select_course_code').select2({
+                            data : response,
+                        });
+                    }
+                    
+                });
+            });
         }
         
         /**
