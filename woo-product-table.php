@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: WOO Product Table
+ * Plugin Name: AAA WOO Product Table
  * Plugin URI: https://codecanyon.net/item/woo-product-table-pro/20676867
  * Description: WooCommerce all products display as a table in one page by shortcode. Fully responsive and mobile friendly. Easily customizable - color,background,title,text color etc.
  * Author: CodeAstrology
