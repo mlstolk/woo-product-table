@@ -168,18 +168,16 @@ if( !function_exists( 'load_terms_by_ajax' ) ) {
     function load_terms_by_ajax(){
         $ky = isset( $_GET['q'] ) && !empty( $_GET['q'] ) ? $_GET['q'] : '';
         $term_name =  isset( $_GET['key'] ) && !empty( $_GET['key'] ) ? $_GET['key'] : '';
-        $texonomy_sarch_args = array('hide_empty' => true,'orderby' => 'name','order' => 'ASC', 'name__like' => $ky, );
-        $tax_obj = get_terms( $term_name, $texonomy_sarch_args );
+        $taxonomy_sarch_args = array('hide_empty' => true,'orderby' => 'name','order' => 'ASC', 'name__like' => $ky, );
+        $tax_obj = get_terms( $term_name, $taxonomy_sarch_args );
+        $arr['results'] = array();
         if( count( $tax_obj ) > 0 ){
-            $arr = array('results' => array());
 
             foreach( $tax_obj as $item ){
-                $dd = array(
+                $arr['results'][] = array(
                     'id' => $item->term_id,
                     'text' => $item->name,
                 );
-                array_push($arr['results'], $dd);
-
             }
         }
         echo json_encode($arr);
