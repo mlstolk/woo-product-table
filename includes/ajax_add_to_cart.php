@@ -148,7 +148,8 @@ if( !function_exists( 'wpt_load_terms_by_selecting_another' ) ) {
                     'id' => $term->term_id,
                     'text' => $term->name,
                 );
-                array_push($term_list['results'], $dd);
+                $term_list['results'][$term->term_id] = $dd;
+                //array_push($term_list['results'], $dd);
               }
           }
 //        wp_get_post_terms();

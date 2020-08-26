@@ -49,12 +49,17 @@
                 ajax_url = site_url + ajax_url_additional;
             $('.wpt_product_table_wrapper .search_select,select.filter_select').select2({
                 matcher: matchCustom,
-                minimumInputLength: 1,
+//                minimumInputLength: 1,
             });//, .wpt_varition_section select
-            $('.wpt_product_table_wrapper .search_select.search_select_university').on('select2:select', function (e) {
+            $('.wpt_product_table_wrapper .search_select.search_select_course_code').html('');
+            $('.wpt_product_table_wrapper .search_select.search_select_institution').on('select2:select', function (e) {
+                $('.wpt_product_table_wrapper .search_select.search_select_course_code').html('');
+                var CourseS2 = $('.wpt_product_table_wrapper .search_select.search_select_course_code').select2();
+                CourseS2.val(null).trigger('change');
                 var data = e.params.data;
                 var term_name = $(this).data('key');
-                console.log(term_name);
+                //console.log(term_name);
+                
                 $.ajax({
                     type: 'post',
                     url: ajax_url,
@@ -66,15 +71,42 @@
                     
                     },
                     success: function(response) {
-                        console.log(JSON.stringify(response));
-                        $('.wpt_product_table_wrapper .search_select.search_select_course_code').select2({
-                            data : response,
-                        });
-                    }
+                        //console.log(response);
+                        //console.log(JSON.stringify(response));
+                        //CourseS2.val(null).trigger('change');
+
+                          $('.wpt_product_table_wrapper .search_select.search_select_course_code').select2({data: Object.values(response.results)});
+                          CourseS2.select2("open");
+                    },
                     
                 });
             });
         }
+        
+        /**
+        if(typeof $('.wpt_product_table_wrapper .search_select').select2 === 'function' && $('.wpt_product_table_wrapper .search_select').length > 0){
+            $('.wpt_product_table_wrapper .search_select,select.filter_select').select2({
+                ajax: {
+                    url: ajax_url,
+                    dataType: 'json',
+					delay: 500,
+                    data: function (params) {
+                        console.log($(this));
+                        var term_name = $(this).data('key');
+                        return {
+                            q: params.term, // search query
+                            key: term_name,
+                            action: 'load_terms_by_ajax' // AJAX action for admin-ajax.php
+                        };
+                    },
+                    
+//                    cache: true,
+                },
+                minimumInputLength: 1,
+            });//, .wpt_varition_section select
+        }
+        
+         */
         
         /**
          * Checking wpt_pro_table_body class available in body tag

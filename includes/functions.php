@@ -728,8 +728,8 @@ add_filter( 'body_class', 'wpt_adding_body_class' );
 if( !function_exists( 'blank_category_id_return' ) ){
     function blank_category_id_return($args){
         $args['tax_query'] = array(
-            'university_IN' => array(
-                'taxonomy' => 'university',
+            'institution_IN' => array(
+                'taxonomy' => 'institution',
                 'terms' => 0
             ),
         );
