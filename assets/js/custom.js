@@ -1593,8 +1593,11 @@
                 var product_id = $(this).parents('tr').data('product_id');
             
                 //.product_id_' + product_id + ' This a Table Trow Class
-                $('#table_id_' + temp_number + ' tr.product_id_' + product_id + ' input.input-text.qty.text').val(Qty_Val);
-                $('#table_id_' + temp_number + ' tr.product_id_' + product_id).attr('data-quantity',Qty_Val);
+                var thisRow = '#table_id_' + temp_number + ' tr.product_id_' + product_id;
+                console.log(thisRow);
+                $( thisRow + ' input.input-text.qty.text').val(Qty_Val);
+                $( thisRow ).attr('data-quantity', Qty_Val);
+                $( thisRow + ' a.button.add_to_cart_button' ).attr('data-quantity', Qty_Val);
                 var targetTotalSelector = $('#table_id_' + temp_number + ' .product_id_' + product_id + ' .wpt_total_item.total_general');
                  
             
