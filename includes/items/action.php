@@ -1,4 +1,5 @@
 <?php
+global $woocommerce;
 $wpt_single_action = false;
 if( $table_type == 'advance_table'){
 
@@ -31,28 +32,30 @@ if( $table_type == 'advance_table'){
         }
         
         
-        /**
-         * 
+        
         // Enqueue variation scripts.
-		wp_enqueue_script( 'wc-add-to-cart-variation' );
+		//wp_enqueue_script( 'wc-add-to-cart-variation' );
 
 		// Get Available variations?
-		$get_variations = count( $product->get_children() ) <= apply_filters( 'woocommerce_ajax_variation_threshold', 30, $product );
+		//$get_variations = count( $product->get_children() ) <= apply_filters( 'woocommerce_ajax_variation_threshold', 30, $product );
 
-//		// Load the template.
-//		wc_get_template(
-//			'single-product/add-to-cart/variable.php',
-//			array(
-//				'available_variations' => $get_variations ? $product->get_available_variations() : false,
-//				'attributes'           => $product->get_variation_attributes(),
-//				'selected_attributes'  => $product->get_default_attributes(),
-//			)
-//		);
-         */
+        //		// Load the template.
+        //		wc_get_template(
+        //			'single-product/add-to-cart/variable.php',
+        //			array(
+        //				'available_variations' => $get_variations ? $product->get_available_variations() : false,
+        //				'attributes'           => $product->get_variation_attributes(),
+        //				'selected_attributes'  => $product->get_default_attributes(),
+        //			)
+        //		);
     }
 
     $ajax_action_final = ( $product_type == 'grouped' || $product_type == 'external' ? 'no_ajax_action ' : $ajax_action . ' ' );//$ajax_action;
     $add_to_cart_url =  $product->add_to_cart_url();
+    // if($product->get_id() == 34){
+    //     var_dump($product->is_sold_individually() );
+    //     var_dump($product);
+    // }
     if( $product_type == 'variable' ){
         $add_to_cart_url = '?add-to-cart=' .  $data['id'];
     }
@@ -72,7 +75,19 @@ if( $table_type == 'advance_table'){
     $add_to_cart_text_final = ( $product_type == 'grouped' || $product_type == 'external' || $add_to_cart_text == ' ' ? $product->add_to_cart_text() : $add_to_cart_text );//'?add-to-cart=' .  $data['id']; //home_url() .  
     $add_to_cart_text_final = apply_filters( 'wpto_add_to_cart_text', $add_to_cart_text_final, $settings, $column_settings, $table_ID, $product );
     
-    echo apply_filters('woocommerce_loop_add_to_cart_link', 
+    
+    if( $product->is_sold_individually() && 0 < wpt_matched_cart_items( $product->get_id() )){
+        
+        
+        echo apply_filters( 'wpt_view_cart_link', 
+            sprintf( '<a href="%s" class="%s" title="%s">%s</a>',
+                esc_url( wc_get_cart_url() ),
+                esc_attr( 'added_to_cart wc-forward' ),
+                __( 'View Cart', 'wpt_pro' ),
+                __( 'View Cart', 'wpt_pro' )
+            ), $product, false, false );
+    }else{
+        echo apply_filters('woocommerce_loop_add_to_cart_link', 
             sprintf('<a rel="nofollow" data-add_to_cart_url="%s" href="%s" data-quantity="%s" data-product_id="%s" data-product_sku="%s" class="%s" target="%s">%s</a>', 
                     esc_attr( $add_to_cart_url ),
                     esc_url( $add_to_cart_url ), 
@@ -82,5 +97,6 @@ if( $table_type == 'advance_table'){
                     esc_attr( $ajax_action_final . ( $row_class ? 'wpt_variation_product single_add_to_cart_button button alt disabled wc-variation-selection-needed wpt_woo_add_cart_button' : 'button wpt_woo_add_cart_button ' . $stock_status_class ) ), //ajax_add_to_cart  //|| !$data['price']
                     esc_html( $target ),
                     esc_html( $add_to_cart_text_final )
-            ), $product,false,false);
+            ), $product, false,false);
+    }
 }
